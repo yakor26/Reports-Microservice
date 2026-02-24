@@ -1,6 +1,7 @@
 from flask import Flask, request
 from datetime import datetime
 import math
+import statistics
 # temp holders 
 
 #TODO 1: Generate counts of specific requested category
@@ -44,12 +45,15 @@ def calculate_statistics():
         for row in program_data:
             column_values.append(row[column])
         # calc
+        col_total = sum(column_values)
+        col_avg = statistics.mean(column_values)
+        max_col = max(column_values)
+        min_col = min(column_values)
+        median_col = statistics.median(column_values)
+        mode_col = statistics.mode(column_values)
         
 
 
-
-    
-        
 
 
 # TODO 3: Filtered report based on selected filters 
