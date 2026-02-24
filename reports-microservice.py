@@ -58,7 +58,8 @@ def filter_by_date():
                 # store in new dict
                 filtered_cols_data = {}
                 for column in requested_columns:
-                filtered_data.append()
+                    filtered_cols_data[column] = row[column]
+                filtered_data.append(filtered_cols_data)
             
             else:
                 filtered_data.append(row)
