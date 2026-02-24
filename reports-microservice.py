@@ -28,19 +28,19 @@ def export_data():
     pass
 
 # TODO 3: Filtered report based on selected filters 
-@app.route("/filter_date", )
+@app.route("/filter_date", methods=["POST"])
 def filter_by_date():
     # request data and grab start date and end date
     filtered_data = []
     data = request.json
-    start_date = datetime.strptime(data["dates"]["start_date"], "%d/%m/%Y")
-    end_date = datetime.strptime(data["dates"]["end_date"], "%d/%m/%Y")
+    start_date = datetime.strptime(data["dates"]["start_date"], "%m/%d/%Y")
+    end_date = datetime.strptime(data["dates"]["end_date"], "%m/%d/%Y")
     date_column = data["date_column"]
     program_data = data["application_data"]
 
     for row in program_data:
     # return filtered data within date range
-        row_date = datetime.strptime(row[date_column], "%d/%m/%Y")
+        row_date = datetime.strptime(row[date_column], "%m/%d/%Y")
         if row_date >= start_date and row_date <= end_date:
             filtered_data.append(row)
     return filtered_data
