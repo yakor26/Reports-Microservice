@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 # temp holders 
 
 #TODO 1: Generate counts of specific
@@ -8,7 +8,7 @@ def generate_count():
     # request data and specific category need count for
     data = request.json
     category = data["category"]
-    program_data = data["data"]
+    program_data = data["application_data"]
 
     # review all data submitted and add each of category to dictionary to keep count
     count = {}
@@ -16,7 +16,9 @@ def generate_count():
         if row[category] in count:
             count[row[category]] +=1
         else:
-            count[row[category]] +=1
+            count[row[category]] = 1
+    # return count
+    return count
 
 
 #TODO 2: Export Report as JSON, CSV
