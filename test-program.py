@@ -71,8 +71,8 @@ def main():
     # # debug statements
     # print("Added book to data\n")
     # print(test_data)
-    # get_count_for_category()
-    # get_filter_by_date()
+    get_count_for_category()
+    get_filter_by_date()
     get_statistics()
 
 
