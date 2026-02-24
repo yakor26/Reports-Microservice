@@ -24,7 +24,7 @@ def generate_count():
         "report_type": f"category report - {category}",
         "created_at": datetime.now(),
         "data": count,
-        "total_submitted": program_data.count()
+        "total_submitted": len(program_data)
     }
     return formatted_report
 
@@ -55,8 +55,8 @@ def filter_by_date():
         "report_type": f"date range report from {start_date} - {end_date}",
         "created_at": datetime.now(),
         "data": filtered_data,
-        "total_submitted": program_data.count(),  
-        "total_found": filtered_data.count()      
+        "total_submitted": len(program_data),  
+        "total_found": len(filtered_data)
     }
     return formatted_report
     
