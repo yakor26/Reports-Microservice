@@ -29,10 +29,14 @@ def generate_count():
     return formatted_report
 
 
-#TODO 2: Export Report as JSON, CSV
-@app.route("/export", methods=["POST"])
-def export_data():
-    pass
+#TODO 2: Calculate stats and get statistical insights on data
+@app.route("/calculate-stats", methods=["POST"])
+def calculate_statistics():
+    data = request.json()
+    # check if requesting in specific date range
+    if "date" in data:
+        filtered_data = filter_by_date()
+
 
 # TODO 3: Filtered report based on selected filters 
 @app.route("/filter_date", methods=["POST"])
@@ -49,7 +53,15 @@ def filter_by_date():
     # return filtered data within date range
         row_date = datetime.strptime(row[date_column], "%m/%d/%Y")
         if row_date >= start_date and row_date <= end_date:
-            filtered_data.append(row)
+            if "filter_columns" in data:
+                requested_columns = data["filter_columns"]
+                # store in new dict
+                filtered_cols_data = {}
+                for column in requested_columns:
+                filtered_data.append()
+            
+            else:
+                filtered_data.append(row)
     
     formatted_report = {
         "report_type": f"date range report from {start_date} - {end_date}",
