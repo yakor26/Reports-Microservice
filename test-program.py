@@ -40,7 +40,7 @@ def get_filter_by_date():
 
 # test stats 
 def get_statistics():
-    columns = ["rating", "pages", "genre"]
+    columns = ["rating", "pages"]
     response = requests.post("http://localhost:4000/calculate_stats", json={"application_data": test_data, "columns": columns
     })
     if response.status_code == 200:
@@ -71,8 +71,9 @@ def main():
     # # debug statements
     # print("Added book to data\n")
     # print(test_data)
-    get_count_for_category()
-    get_filter_by_date()
+    # get_count_for_category()
+    # get_filter_by_date()
+    get_statistics()
 
 
     

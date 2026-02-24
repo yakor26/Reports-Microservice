@@ -32,9 +32,9 @@ def generate_count():
 
 
 #TODO 2: Calculate stats and get statistical insights on data
-@app.route("/calculate-stats", methods=["POST"])
+@app.route("/calculate_stats", methods=["POST"])
 def calculate_statistics():
-    data = request.json()
+    data = request.json
     program_data = data["application_data"]
     # need to specific columns and they have to be numbers 
     columns = data["columns"]
@@ -43,16 +43,24 @@ def calculate_statistics():
     for column in columns:
         column_values = []
         for row in program_data:
-            column_values.append(row[column])
+            column_values.append(int(row[column]))
         # calc
-        col_total = sum(column_values)
-        col_avg = statistics.mean(column_values)
-        max_col = max(column_values)
-        min_col = min(column_values)
-        median_col = statistics.median(column_values)
-        mode_col = statistics.mode(column_values)
-        
+        calculated_stats = {
+        "total" : sum(column_values),
+        "average": statistics.mean(column_values),
+        "max": max(column_values),
+        "min": min(column_values),
+        "median": statistics.median(column_values),
+        "mode":statistics.mode(column_values)
+        }
+        stats[column] = calculated_stats
 
+    formatted_report = {
+        "report_type": f"stats report",
+        "created_at": datetime.now(),
+        "data": stats,
+    }
+    return formatted_report
 
 
 
