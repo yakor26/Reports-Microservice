@@ -19,7 +19,14 @@ def generate_count():
         else:
             count[row[category]] = 1
     # return count
-    return count
+    # format report
+    formatted_report = {
+        "report_type": f"category report - {category}",
+        "created_at": datetime.now(),
+        "data": count,
+        "total_submitted": program_data.count()
+    }
+    return formatted_report
 
 
 #TODO 2: Export Report as JSON, CSV
@@ -43,7 +50,15 @@ def filter_by_date():
         row_date = datetime.strptime(row[date_column], "%m/%d/%Y")
         if row_date >= start_date and row_date <= end_date:
             filtered_data.append(row)
-    return filtered_data
+    
+    formatted_report = {
+        "report_type": f"date range report from {start_date} - {end_date}",
+        "created_at": datetime.now(),
+        "data": filtered_data,
+        "total_submitted": program_data.count(),  
+        "total_found": filtered_data.count()      
+    }
+    return formatted_report
     
 
 if __name__ == "__main__":

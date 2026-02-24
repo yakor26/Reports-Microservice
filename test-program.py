@@ -14,9 +14,10 @@ def get_count_for_category():
     response = requests.post("http://localhost:4000/generate_count", json={"application_data": test_data, "category": category})
     if response.status_code == 200:
         report = response.json()
-        print(f"Report for Book {category.title()}: ") 
-        for row in report: 
-            print(f'{row.title()} - {int(report[row])}')
+        print(report)
+        # print(f"Report for Book {category.title()}: ") 
+        # for row in report: 
+        #     print(f'{row.title()} - {int(report[row])}')
     else:
         return "Failed to generate category report data"
 
@@ -29,9 +30,10 @@ def get_filter_by_date():
     "dates": {"start_date": start_date, "end_date": end_date}})
     if response.status_code == 200:
         report = response.json()
-        print(f"Books within {start_date} - {end_date}: ") 
-        for row in report: 
-            print(row)
+        print(report)
+        # print(f"Books within {start_date} - {end_date}: ") 
+        # for row in report: 
+        #     print(row)
     else:
         return "Failed to find dates within specified date range"
     
