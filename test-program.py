@@ -31,10 +31,13 @@ def main():
     # print(test_data)
 
     # call generate count based on entered category
-    response = requests.post("http://localhost:4000/generate_count", json={"application_data": test_data, "category": "genre"})
-    print(response)
+    category = "genre"
+    response = requests.post("http://localhost:4000/generate_count", json={"application_data": test_data, "category": category})
     if response.status_code == 200:
-        print(f"Report Listed: {response.json()}\n") 
+        report = response.json()
+        print(f"Report for {category.title()}: ") 
+        for row in report: 
+            print(f'{row.title()} - {int(report[row])}')
     else:
         return "Failed to generate category report data"
 
