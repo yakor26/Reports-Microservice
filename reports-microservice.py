@@ -1,5 +1,6 @@
 from flask import Flask, request
 from datetime import datetime
+import math
 # temp holders 
 
 #TODO 1: Generate counts of specific requested category
@@ -33,9 +34,22 @@ def generate_count():
 @app.route("/calculate-stats", methods=["POST"])
 def calculate_statistics():
     data = request.json()
-    # check if requesting in specific date range
-    if "date" in data:
-        filtered_data = filter_by_date()
+    program_data = data["application_data"]
+    # need to specific columns and they have to be numbers 
+    columns = data["columns"]
+    stats = {}
+    # for each selected column
+    for column in columns:
+        column_values = []
+        for row in program_data:
+            column_values.append(row[column])
+        # calc
+        
+
+
+
+    
+        
 
 
 # TODO 3: Filtered report based on selected filters 

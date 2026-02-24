@@ -27,7 +27,7 @@ def get_filter_by_date():
     filter_columns = ["title", "author"]
     start_date = "01/30/2026"
     end_date = "02/07/2026"
-    response = requests.post("http://localhost:4000/filter_date", json={"application_data": test_data, "date_column": date_column, "filter_columns": filter_columns,
+    response = requests.post("http://localhost:4000/filter_date", json={"application_data": test_data, "date_column": date_column, 
     "dates": {"start_date": start_date, "end_date": end_date}})
     if response.status_code == 200:
         report = response.json()
@@ -41,10 +41,8 @@ def get_filter_by_date():
 # test stats 
 def get_statistics():
     columns = ["rating", "pages", "genre"]
-    start_date = "01/30/2026"
-    end_date = "02/07/2026"
-    response = requests.post("http://localhost:4000/calculate_stats", json={"application_data": test_data, "columns": columns,
-    "dates": {"start_date": start_date, "end_date": end_date}})
+    response = requests.post("http://localhost:4000/calculate_stats", json={"application_data": test_data, "columns": columns
+    })
     if response.status_code == 200:
         report = response.json()
         print(report)
