@@ -28,7 +28,7 @@ def export_data():
     pass
 
 # TODO 3: Filtered report based on selected filters 
-@app.route("/filter-date", )
+@app.route("/filter_date", )
 def filter_by_date():
     # request data and grab start date and end date
     filtered_data = []
