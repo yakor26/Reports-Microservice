@@ -8,15 +8,23 @@ class CountReport(BaseModel):
     application_data: list
     category: str
 
+class StatisticsReport(BaseModel):
+    application_data: list
+    category: str
+    columns: list
+
+class SpecificDates(BaseModel):
+    start_date: str
+    end_date: str
+class DateReport(BaseModel):
+    application_data: list
+    date_column: str
+    dates: SpecificDates
+    filter_columns: list | None = None
+
+
     
 #TODO 1: Generate counts of specific requested category
-# @app.route("/generate_count", methods=["POST"])
-# def generate_count():
-#     # request data and specific category need count for
-#     data = request.json
-#     category = data["category"]
-#     program_data = data["application_data"]
-
 @app.post("/generate_count")
 def generate_count(report: CountReport):
     # request data and specific category need count for
@@ -41,48 +49,17 @@ def generate_count(report: CountReport):
     return formatted_report
 
 
-#TODO 2: Calculate stats and get statistical insights on data
-# @app.route("/calculate_stats", methods=["POST"])
-# def calculate_statistics():
-#     data = request.json
-#     program_data = data["application_data"]
-#     # need to specific columns and they have to be numbers 
-#     columns = data["columns"]
-#     stats = {}
-#     # for each selected column
-#     for column in columns:
-#         column_values = []
-#         for row in program_data:
-#             column_values.append(int(row[column]))
-#         # calc
-#         calculated_stats = {
-#         "total" : sum(column_values),
-#         "average": statistics.mean(column_values),
-#         "max": max(column_values),
-#         "min": min(column_values),
-#         "median": statistics.median(column_values),
-#         "mode":statistics.mode(column_values)
-#         }
-#         stats[column] = calculated_stats
-
-#     formatted_report = {
-#         "report_type": f"stats report",
-#         "created_at": datetime.now(),
-#         "data": stats,
-#     }
-#     return formatted_report
-
 @app.post("/calculate_stats")
-def calculate_statistics():
-    data = request.json
-    program_data = data["application_data"]
+def calculate_statistics(report: StatisticsReport):
+    program_data = report.application_data
     # need to specific columns and they have to be numbers 
-    columns = data["columns"]
+    columns = report.columns
     stats = {}
     # for each selected column
     for column in columns:
         column_values = []
         for row in program_data:
+            # TODO add error handling for non numeric input columns
             column_values.append(int(row[column]))
         # calc
         calculated_stats = {
@@ -105,22 +82,21 @@ def calculate_statistics():
 
 
 # TODO 3: Filtered report based on selected filters 
-@app.route("/filter_date", methods=["POST"])
-def filter_by_date():
+@app.post("/filter_date")
+def filter_by_date(report: DateReport):
     # request data and grab start date and end date
     filtered_data = []
-    data = request.json
-    start_date = datetime.strptime(data["dates"]["start_date"], "%m/%d/%Y")
-    end_date = datetime.strptime(data["dates"]["end_date"], "%m/%d/%Y")
-    date_column = data["date_column"]
-    program_data = data["application_data"]
+    start_date = datetime.strptime(report.dates.start_date, "%m/%d/%Y")
+    end_date = datetime.strptime(report.dates.end_date, "%m/%d/%Y")
+    date_column = report.date_column
+    program_data = report.application_data
 
     for row in program_data:
     # return filtered data within date range
         row_date = datetime.strptime(row[date_column], "%m/%d/%Y")
         if row_date >= start_date and row_date <= end_date:
-            if "filter_columns" in data:
-                requested_columns = data["filter_columns"]
+            if report.filter_columns is not None:
+                requested_columns = report.filter_columns
                 # store in new dict
                 filtered_cols_data = {}
                 for column in requested_columns:
