@@ -14,6 +14,7 @@ class StatisticsReport(BaseModel):
     application_data: list
     columns: list
 
+# dates dictionary
 class SpecificDates(BaseModel):
     start_date: str
     end_date: str
