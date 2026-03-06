@@ -18,6 +18,8 @@ class StatisticsReport(BaseModel):
 class SpecificDates(BaseModel):
     start_date: str
     end_date: str
+
+# 
 class DateReport(BaseModel):
     application_data: list
     date_column: str
