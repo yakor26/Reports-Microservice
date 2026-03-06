@@ -1,6 +1,5 @@
 import requests
 
-
 test_data = [
     {"title": "Pride and Prejudice", "author": "Jane Austen", "finished_date": "01/18/2026" , "pages": 430, "rating": 3, "genre": "romance"},
     {"title": "Dracula", "author": "Bram Stoker", "finished_date": "01/30/2026", "pages": 325, "rating": 4, "genre": "horror"},
