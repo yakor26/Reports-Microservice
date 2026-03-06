@@ -4,10 +4,12 @@ from datetime import datetime
 import statistics
 
 app = FastAPI()
+# model for count report
 class CountReport(BaseModel):
     application_data: list
     category: str
 
+# stats report
 class StatisticsReport(BaseModel):
     application_data: list
     columns: list
@@ -77,7 +79,6 @@ def calculate_statistics(report: StatisticsReport):
         "data": stats,
     }
     return formatted_report
-
 
 
 # TODO 3: Filtered report based on selected filters 
