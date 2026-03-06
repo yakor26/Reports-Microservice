@@ -11,10 +11,10 @@ test_data = [
 def get_count_for_category():
 # call generate count based on entered category
     category = "genre"
-    response = requests.post("http://localhost:4000/generate_count", json={"application_data": test_data, "category": category})
+    response = requests.post("http://127.0.0.1:8005/generate_count", json={"application_data": test_data, "category": category})
     if response.status_code == 200:
         report = response.json()
-        # print(report)
+        print(report)
         # print(f"Report for Book {category.title()}: ") 
         # for row in report: 
         #     print(f'{row.title()} - {int(report[row])}')
@@ -27,7 +27,7 @@ def get_filter_by_date():
     filter_columns = ["title", "author"]
     start_date = "01/30/2026"
     end_date = "02/07/2026"
-    response = requests.post("http://localhost:4000/filter_date", json={"application_data": test_data, "date_column": date_column, 
+    response = requests.post("http://127.0.0.1:8005/filter_date", json={"application_data": test_data, "date_column": date_column, 
     "dates": {"start_date": start_date, "end_date": end_date}})
     if response.status_code == 200:
         report = response.json()
@@ -41,7 +41,7 @@ def get_filter_by_date():
 # test stats 
 def get_statistics():
     columns = ["rating", "pages"]
-    response = requests.post("http://localhost:4000/calculate_stats", json={"application_data": test_data, "columns": columns
+    response = requests.post("http://127.0.0.1:8005/calculate_stats", json={"application_data": test_data, "columns": columns
     })
     if response.status_code == 200:
         report = response.json()
@@ -51,28 +51,8 @@ def get_statistics():
         return "Failed to get statistics from data"
     
 def main():
-    # # basic prompt for book data
-    # book_title = input("Enter Book Title: ")
-    # book_author = input("Enter Author of Book: ")
-    # book_finished_date = input("Enter date book finished (mm/dd/yyyy): ")
-    # book_pages = input("Enter Number of Pages in Book: ")
-    # book_rating = input("Enter your Rating for the Book(1-5): ")
-    # book_genre = input("Enter Book Genre: ")
-    # # generate book object and add to test data
-    # # Book(book_title, book_author, book_finished_date, book_pages, book_rating)
-    # test_data.append({
-    #     "title": book_title,
-    #     "author": book_author,
-    #     "finished date": book_finished_date,
-    #     "pages": book_pages,
-    #     "rating": book_rating,
-    #     "genre": book_genre
-    # })
-    # # debug statements
-    # print("Added book to data\n")
-    # print(test_data)
-    get_count_for_category()
-    get_filter_by_date()
+    # get_count_for_category()
+    # get_filter_by_date()
     get_statistics()
 
 
