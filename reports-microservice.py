@@ -1,17 +1,27 @@
-from flask import Flask, request
+from fastapi import FastAPI
+from pydantic import BaseModel
 from datetime import datetime
-import math
 import statistics
-# temp holders 
 
+app = FastAPI()
+class CountReport(BaseModel):
+    application_data: list
+    category: str
+
+    
 #TODO 1: Generate counts of specific requested category
-app = Flask(__name__)
-@app.route("/generate_count", methods=["POST"])
-def generate_count():
+# @app.route("/generate_count", methods=["POST"])
+# def generate_count():
+#     # request data and specific category need count for
+#     data = request.json
+#     category = data["category"]
+#     program_data = data["application_data"]
+
+@app.post("/generate_count")
+def generate_count(report: CountReport):
     # request data and specific category need count for
-    data = request.json
-    category = data["category"]
-    program_data = data["application_data"]
+    category = report.category
+    program_data = report.application_data
 
     # review all data submitted and add each of category to dictionary to keep count
     count = {}
@@ -32,7 +42,37 @@ def generate_count():
 
 
 #TODO 2: Calculate stats and get statistical insights on data
-@app.route("/calculate_stats", methods=["POST"])
+# @app.route("/calculate_stats", methods=["POST"])
+# def calculate_statistics():
+#     data = request.json
+#     program_data = data["application_data"]
+#     # need to specific columns and they have to be numbers 
+#     columns = data["columns"]
+#     stats = {}
+#     # for each selected column
+#     for column in columns:
+#         column_values = []
+#         for row in program_data:
+#             column_values.append(int(row[column]))
+#         # calc
+#         calculated_stats = {
+#         "total" : sum(column_values),
+#         "average": statistics.mean(column_values),
+#         "max": max(column_values),
+#         "min": min(column_values),
+#         "median": statistics.median(column_values),
+#         "mode":statistics.mode(column_values)
+#         }
+#         stats[column] = calculated_stats
+
+#     formatted_report = {
+#         "report_type": f"stats report",
+#         "created_at": datetime.now(),
+#         "data": stats,
+#     }
+#     return formatted_report
+
+@app.post("/calculate_stats")
 def calculate_statistics():
     data = request.json
     program_data = data["application_data"]
@@ -100,5 +140,3 @@ def filter_by_date():
     return formatted_report
     
 
-if __name__ == "__main__":
-    app.run(port=4000)
