@@ -6,12 +6,13 @@ test_data = [
     {"title": "Jane Eyre", "author": "Charlotte Brontë", "finished_date": "02/02/2026", "pages": 345, "rating": 2, "genre": "romance"},
     {"title": "1984", "author": "George Orwell", "finished_date": "02/08/2026", "pages": 416, "rating": 3, "genre": "science-fiction"}
 ]
+# test_data = []
 # test count based on category
 def get_count_for_category():
 # call generate count based on entered category
     category = "genre"
     try:
-        response = requests.post("http://127.0.0.1:8005/report/generate_count", json={"application_data": test_data, "category": category})
+        response = requests.post("https://cs361-reports-microservice-production.up.railway.app/report/generate_count", json={"application_data": test_data, "category": category})
         response.raise_for_status()
         report = response.json()
     except requests.exceptions.RequestException as error:
@@ -27,8 +28,8 @@ def get_filter_by_date():
     start_date = "01/30/2026"
     end_date = "02/07/2026"
     try:
-        response = requests.post("http://127.0.0.1:8006/report/filter_date", json={"application_data": test_data, "date_column": date_column, 
-        "dates": {"start_date": 4, "end_date": end_date}})
+        response = requests.post("https://cs361-reports-microservice-production.up.railway.app/report/filter_date", json={"application_data": test_data, "date_column": date_column, 
+        "dates": {"start_date": start_date, "end_date": end_date}})
         report = response.json()
     except requests.exceptions.RequestException as error:
         print(error) 
@@ -37,9 +38,9 @@ def get_filter_by_date():
         
 # test stats 
 def get_statistics():
-    columns = ["rating", "pages"]
+    columns = ["pages", "rating"]
     try:
-        response = requests.post("http://127.0.0.1:8006/report/calculate_stats", json={"application_data": test_data, "columns": columns
+        response = requests.post("https://cs361-reports-microservice-production.up.railway.app/report/calculate_stats", json={"application_data": test_data, "columns": columns
         })
         report = response.json()
     except requests.exceptions.RequestException as error:
@@ -49,7 +50,7 @@ def get_statistics():
     
 def main():
     # get_count_for_category()
-    # get_filter_by_date()
+    get_filter_by_date()
     # get_statistics()
 
 
