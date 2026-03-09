@@ -43,20 +43,23 @@ def generate_count(report: CountReport):
         
     for row in program_data:
         if category not in row:
-            raise HTTPException(status_code=400, detail="category provided does not exist")
+            continue
         else:
             if row[category] in count:
                 count[row[category]] +=1
             else:
                 count[row[category]] = 1
-    # return count
+
+    # validate category provided exists after checking all rows
+    if not count:
+        raise HTTPException(status_code=400, detail="category provided does not exist")
     # format report
     formatted_report = {
         "report_type": f"category report - {category}",
         "created_at": datetime.now(),
         "data": count,
-        "total_submitted": len(program_data)
-    }
+        "total_submitted": len(program_data)    
+        }
     return formatted_report
 
 
