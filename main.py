@@ -30,7 +30,7 @@ class DateReport(BaseModel):
 
     
 #TODO 1: Generate counts of specific requested category
-@app.post("/report/generate_count")
+@app.post("/report/count")
 def generate_count(report: CountReport):
     # request data and specific category need count for
     category = report.category
@@ -64,7 +64,7 @@ def generate_count(report: CountReport):
     return formatted_report
 
 
-@app.post("/report/calculate_stats")
+@app.post("/report/stats")
 def calculate_statistics(report: StatisticsReport):
     program_data = report.application_data
     # validate data is provided
