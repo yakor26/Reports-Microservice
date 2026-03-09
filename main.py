@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
 import statistics
@@ -29,7 +29,7 @@ class DateReport(BaseModel):
 
     
 #TODO 1: Generate counts of specific requested category
-@app.post("/generate_count")
+@app.post("/report/generate_count")
 def generate_count(report: CountReport):
     # request data and specific category need count for
     category = report.category
@@ -37,11 +37,18 @@ def generate_count(report: CountReport):
 
     # review all data submitted and add each of category to dictionary to keep count
     count = {}
+    # validate data is provided
+    if not program_data:
+        raise HTTPException(status_code=400, detail="No data was provided for category report")
+        
     for row in program_data:
-        if row[category] in count:
-            count[row[category]] +=1
+        if category not in row:
+            raise HTTPException(status_code=400, detail="category provided does not exist")
         else:
-            count[row[category]] = 1
+            if row[category] in count:
+                count[row[category]] +=1
+            else:
+                count[row[category]] = 1
     # return count
     # format report
     formatted_report = {
@@ -53,7 +60,7 @@ def generate_count(report: CountReport):
     return formatted_report
 
 
-@app.post("/calculate_stats")
+@app.post("/report/calculate_stats")
 def calculate_statistics(report: StatisticsReport):
     program_data = report.application_data
     # need to specific columns and they have to be numbers 
@@ -85,7 +92,7 @@ def calculate_statistics(report: StatisticsReport):
 
 
 # TODO 3: Filtered report based on selected filters 
-@app.post("/filter_date")
+@app.post("/report/filter_date")
 def filter_by_date(report: DateReport):
     # request data and grab start date and end date
     filtered_data = []
