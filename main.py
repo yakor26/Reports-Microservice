@@ -85,6 +85,7 @@ def calculate_statistics(report: StatisticsReport):
                 continue
             try: 
                 value = float(row[column])
+            # for columns that have non numeric values end immediately
             except ValueError:
                 raise HTTPException(status_code=400, detail="column contains non numeric values")     
             column_values.append(value)
@@ -115,14 +116,26 @@ def calculate_statistics(report: StatisticsReport):
 def filter_by_date(report: DateReport):
     # request data and grab start date and end date
     filtered_data = []
-    start_date = datetime.strptime(report.dates.start_date, "%m/%d/%Y")
-    end_date = datetime.strptime(report.dates.end_date, "%m/%d/%Y")
+    try:
+        start_date = datetime.strptime(report.dates.start_date, "%m/%d/%Y")
+        end_date = datetime.strptime(report.dates.end_date, "%m/%d/%Y")
+    except ValueError:
+        raise HTTPException(status_code=400, detail="date format incorrect, format should be mm/dd/yyyy")
     date_column = report.date_column
+    # error handling for date column
+    if not date_column:
+        raise HTTPException(status_code=400, detail="No data was provided for column to use for date")
     program_data = report.application_data
+    # error handling for data
+    if not program_data:
+        raise HTTPException(status_code=400, detail="No data was provided for filter by date report")
 
     for row in program_data:
     # return filtered data within date range
-        row_date = datetime.strptime(row[date_column], "%m/%d/%Y")
+        try:
+            row_date = datetime.strptime(row[date_column], "%m/%d/%Y")
+        except ValueError:
+            continue
         if row_date >= start_date and row_date <= end_date:
             if report.filter_columns is not None:
                 requested_columns = report.filter_columns
