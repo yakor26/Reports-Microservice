@@ -14,6 +14,7 @@ class StatisticsReport(BaseModel):
     application_data: list
     columns: list
 
+
 # dates dictionary
 class SpecificDates(BaseModel):
     start_date: str
@@ -66,23 +67,38 @@ def generate_count(report: CountReport):
 @app.post("/report/calculate_stats")
 def calculate_statistics(report: StatisticsReport):
     program_data = report.application_data
+    # validate data is provided
+    if not program_data:
+        raise HTTPException(status_code=400, detail="No data was provided for statistics report")
     # need to specific columns and they have to be numbers 
     columns = report.columns
+    # validate column provided 
+    if not columns:
+        raise HTTPException(status_code=400, detail="column for statistics was not provided")
     stats = {}
     # for each selected column
     for column in columns:
         column_values = []
         for row in program_data:
             # TODO add error handling for non numeric input columns
-            column_values.append(int(row[column]))
+            if column not in row:
+                continue
+            try: 
+                value = float(row[column])
+            except ValueError:
+                raise HTTPException(status_code=400, detail="column contains non numeric values")     
+            column_values.append(value)
+        
+        # check that columns were valid, check anything was added
+        if not column_values:
+            raise HTTPException(status_code=400, detail="column for statistics provided does not exist")
         # calc
         calculated_stats = {
         "total" : sum(column_values),
         "average": statistics.mean(column_values),
         "max": max(column_values),
         "min": min(column_values),
-        "median": statistics.median(column_values),
-        "mode":statistics.mode(column_values)
+        "median": statistics.median(column_values)
         }
         stats[column] = calculated_stats
 
