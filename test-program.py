@@ -10,15 +10,15 @@ test_data = [
 def get_count_for_category():
 # call generate count based on entered category
     category = "genre"
-    response = requests.post("http://127.0.0.1:8005/generate_count", json={"application_data": test_data, "category": category})
-    if response.status_code == 200:
+    try:
+        response = requests.post("http://127.0.0.1:8005/report/generate_count", json={"application_data": test_data, "category": category})
+        response.raise_for_status()
         report = response.json()
-        print(report)
-        # print(f"Report for Book {category.title()}: ") 
-        # for row in report: 
-        #     print(f'{row.title()} - {int(report[row])}')
+    except requests.exceptions.RequestException as error:
+        print(error)
     else:
-        return "Failed to generate category report data"
+        print(report)
+
 # get filter by date
 def get_filter_by_date():
 # call generate count based on specific date column
@@ -26,33 +26,31 @@ def get_filter_by_date():
     filter_columns = ["title", "author"]
     start_date = "01/30/2026"
     end_date = "02/07/2026"
-    response = requests.post("http://127.0.0.1:8005/filter_date", json={"application_data": test_data, "date_column": date_column, 
-    "dates": {"start_date": start_date, "end_date": end_date}})
-    if response.status_code == 200:
+    try:
+        response = requests.post("http://127.0.0.1:8006/report/filter_date", json={"application_data": test_data, "date_column": date_column, 
+        "dates": {"start_date": 4, "end_date": end_date}})
         report = response.json()
-        print(report)
-        # print(f"Books within {start_date} - {end_date}: ") 
-        # for row in report: 
-        #     print(row)
+    except requests.exceptions.RequestException as error:
+        print(error) 
     else:
-        return "Failed to find dates within specified date range"
-
+        print(report)
+        
 # test stats 
 def get_statistics():
     columns = ["rating", "pages"]
-    response = requests.post("http://127.0.0.1:8005/calculate_stats", json={"application_data": test_data, "columns": columns
-    })
-    if response.status_code == 200:
+    try:
+        response = requests.post("http://127.0.0.1:8006/report/calculate_stats", json={"application_data": test_data, "columns": columns
+        })
         report = response.json()
-        print(report)
-        
+    except requests.exceptions.RequestException as error:
+        print(error)
     else:
-        return "Failed to get statistics from data"
+        print(report)
     
 def main():
     # get_count_for_category()
     # get_filter_by_date()
-    get_statistics()
+    # get_statistics()
 
 
     
