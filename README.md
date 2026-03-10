@@ -60,4 +60,5 @@ Response generated:
 
 {'report_type': 'date range report from 2026-01-30 00:00:00 - 2026-02-07 00:00:00', 'created_at': '2026-03-09T09:34:00.879329', 'data': [{'title': 'Dracula', 'author': 'Bram Stoker', 'finished_date': '01/30/2026', 'pages': 325, 'rating': 4, 'genre': 'horror'}, {'title': 'Jane Eyre', 'author': 'Charlotte Brontë', 'finished_date': '02/02/2026', 'pages': 345, 'rating': 2, 'genre': 'romance'}], 'total_submitted': 4, 'total_found': 2}
 
+<img width="624" height="518" alt="Screenshot 2026-03-09 at 2 49 15 PM" src="https://github.com/user-attachments/assets/4872618b-a0fa-4a62-a808-e084996703d2" />
 
